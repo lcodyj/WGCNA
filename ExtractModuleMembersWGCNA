@@ -1,0 +1,12 @@
+#extracting module members for comparison with between groups
+
+extractModuleMembers <- function(bwModuleColors, datExpr0, datTraits, moduleName){
+  
+  bwModuleColors <- as.data.frame(bwModuleColors)
+  rownames(bwModuleColors) <- rownames(t(datExpr0))
+  moduleMembers <- as.data.frame(subset(bwModuleColors, bwModuleColors == moduleName))
+  moduleExpr <- as.matrix(subset(t(datExpr0), rownames(t(datExpr0)) %in% rownames(moduleMembers)))
+  
+  return(moduleExpr)
+  
+}
