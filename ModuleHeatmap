@@ -1,0 +1,11 @@
+#create heatmap of variables in extracted modules
+
+moduleHeatmap <- function(moduleExpr, datTraits, moduleName){
+  
+  sizeGrWindow(6,6)
+  par(cex = 1.0)
+  heatmap.2(moduleExpr[1:1477, ], col=redgreen(65), Colv = FALSE, dendrogram = "row", 
+            scale = "row", key=T, keysize=0.8, density.info="none", trace="none", cexCol=0.9, 
+            margin = c(8,8), main = moduleName, labCol=datTraits$Group)
+  
+}
