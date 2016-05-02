@@ -1,4 +1,4 @@
-#extracting module members for comparison with between groups
+#extracting module members for comparison with between group
 
 extractModuleMembers <- function(bwModuleColors, datExpr0, datTraits, moduleName){
   
