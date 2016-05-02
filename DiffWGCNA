@@ -1,0 +1,83 @@
+#differences between Cur and Placebo
+
+effectModules <- as.data.frame(matrix(NA, nrow = ncol(MEs), ncol = 1))
+colnames(effectModules) <- c("Curcumin vs. Placebo")
+row.names(effectModules) <- colnames(MEs)
+len <- ncol(MEs)
+
+i = 1
+
+for (i in i:len){
+  model <- lm(MEs[,i] ~ I(datTraits$Group))
+  pValues <- summary(model)$coef[, "Pr(>|t|)"]
+  effectModules[i,1] <- pValues[2]
+}
+View(effectModules)
+
+
+#regression between Modules and FMD
+
+ModulesFMD <- as.data.frame(matrix(NA, nrow = ncol(MEs), ncol = 1))
+colnames(ModulesFMD) <- c("FMD")
+row.names(ModulesFMD) <- colnames(MEs)
+len <- ncol(MEs)
+
+i = 1
+
+for (i in i:len){
+  model <- lm(MEs[,i] ~ (datTraits$PreFMD))
+  pValues <- summary(model)$coef[, "Pr(>|t|)"]
+  ModulesFMD[i,1] <- pValues[2]
+}
+View(ModulesFMD)
+
+
+#regression between Modules and VOP 
+
+ModulesVOP <- as.data.frame(matrix(NA, nrow = ncol(MEs), ncol = 1))
+colnames(ModulesVOP) <- c("AChPerChPost_Pre")
+row.names(ModulesVOP) <- colnames(MEs)
+len <- ncol(MEs)
+
+i = 1
+
+for (i in i:len){
+  model <- lm(MEs[,i] ~I(datTraits$Group) + (datTraits$AChPerChPost_Pre))
+  pValues <- anova(model)
+  ModulesVOP[i,1] <- pValues[2,5]
+}
+View(ModulesVOP)
+
+
+#anova for group diffs
+
+anovaModules <- as.data.frame(matrix(NA, nrow = ncol(MEs), ncol = 1))
+colnames(anovaModules) <- c("Cur vs Pla")
+row.names(anovaModules) <- colnames(MEs)
+len <- ncol(MEs)
+
+i = 1
+
+for (i in i:len){
+  model <- lm(MEs[,i] ~I(datTraits$Group))
+  pValues <- anova(model)
+  anovaModules[i,1] <- pValues[1,5]
+}
+View(anovaModules)
+
+#TTEST for differences, all modules
+
+ttestModules <- as.data.frame(matrix(NA, nrow = ncol(MEs), ncol = 1))
+colnames(ttestModules) <- c("Cur vs Pla")
+row.names(ttestModules) <- colnames(MEs)
+len <- ncol(MEs)
+
+i = 1
+
+for (i in i:len){
+  model <- t.test(subset(MEs[,i], datTraits$Group == 1), subset(MEs[,i], datTraits$Group == 2))
+  pValues <- (model$p.value)
+  ttestModules[i,1] <- pValues
+}
+View(ttestModules)
+
